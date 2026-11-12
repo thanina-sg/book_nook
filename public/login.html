@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Purple Book Nook</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <nav>
+    <div class="nav-content">
+      <a href="index.html" class="logo">
+        <i data-lucide="book-open"></i>
+        <span>Book Nook</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">← Back to Store</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container" style="max-width: 420px; margin-top: 5rem;">
+    <div class="card">
+      <div class="header-title" style="justify-content: center; flex-direction: column; text-align: center;">
+        <div style="background: var(--primary-light); padding: 1rem; border-radius: 50%; color: var(--primary);">
+          <i data-lucide="lock" style="width: 28px; height: 28px;"></i>
+        </div>
+        <h2>Admin Access</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0.25rem 0 0;">Enter your credentials to continue</p>
+      </div>
+
+      <form id="loginForm" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+        <div class="input-group">
+          <label>Username</label>
+          <input type="text" id="username" placeholder="admin" required>
+        </div>
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" id="password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" style="margin-top: 0.5rem;">
+          <span>Sign In</span>
+          <i data-lucide="arrow-right" style="width: 16px;"></i>
+        </button>
+      </form>
+      <p id="error" style="color: var(--danger); font-size: 0.85rem; text-align: center; display: none; margin-top: 1rem;">Invalid username or password.</p>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: e.target.username.value,
+          password: e.target.password.value
+        })
+      });
+
+      if (res.ok) {
+        window.location.href = 'dashboard.html';
+      } else {
+        document.getElementById('error').style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
